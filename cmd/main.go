@@ -8,6 +8,7 @@ import (
 	"syscall"
 
 	"github.com/YotoHana/itk-academy-test-case/internal/database"
+	"github.com/YotoHana/itk-academy-test-case/internal/repository"
 	"github.com/YotoHana/itk-academy-test-case/internal/server"
 )
 
@@ -19,6 +20,8 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to connect db: %v", err)
 	}
+
+	repo := repository.NewWalletRepository(db.Database)
 
 	server := server.NewServer()
 

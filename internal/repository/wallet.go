@@ -8,7 +8,7 @@ import (
 )
 
 type WalletRepository interface {
-	Update(ctx context.Context, balance int) (*models.Wallets, error)
+	Update(ctx context.Context, wallets models.Wallets) error
 }
 
 type walletRepo struct {
@@ -17,4 +17,8 @@ type walletRepo struct {
 
 func (r *walletRepo) Update(ctx context.Context, wallets models.Wallets) error {
 	return r.db.Model(&models.Wallets{}).Select("wallet_uuid").Updates(&wallets).Error
+}
+
+func NewWalletRepository(db *gorm.DB) WalletRepository {
+	return &walletRepo{db: db}
 }

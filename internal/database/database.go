@@ -6,7 +6,7 @@ import (
 )
 
 type Database struct {
-	database *gorm.DB
+	Database *gorm.DB
 }
 
 func NewDatabase() (*Database, error) {
@@ -16,6 +16,6 @@ func NewDatabase() (*Database, error) {
 	}
 
 	return &Database{
-		database: gorm,
+		Database: gorm,
 	}, nil
 }
