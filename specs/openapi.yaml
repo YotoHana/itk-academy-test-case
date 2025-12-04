@@ -1,0 +1,77 @@
+openapi: '3.0.3'
+
+info:
+  title: API service for wallet operations
+  version: '1.0'
+
+servers:
+  - url: localhost:8080
+
+paths:
+  /api/v1/wallet:
+    post:
+      summary: Операции с кошельком
+      requestBody:
+        $ref: "#/components/requestBodies/OperationWallet"
+      responses:
+        200:
+          $ref: "#/components/responses/Wallet"
+
+  /api/v1/wallets/{WALLET_UUID}:
+    get:
+      summary: Получение информации о балансе кошелька
+      parameters:
+        - $ref: "#/components/parameters/WALLET_UUID"
+      responses:
+        200:
+          $ref: "#/components/responses/Wallet"
+    
+
+components:
+  parameters:
+    WALLET_UUID:
+      in: path
+      name: WALLET_UUID
+      required: true
+      schema:
+        $ref: "#/components/schemas/WALLET_UUID"
+
+  schemas:
+    WALLET_UUID:
+      type: string
+      format: uuid
+
+    Wallet:
+      type: object
+      properties:
+        wallet_id:
+          type: string
+          format: uuid
+        balance:
+          type: integer
+          format: int32
+
+  responses:
+    Wallet:
+      description: Описание кошелька
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Wallet"
+
+  requestBodies:
+    OperationWallet:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              wallet_id:
+                type: string
+                format: uuid
+              operation_type:
+                type: string
+              amount:
+                type: integer
+                format: int32
