@@ -1,7 +1,7 @@
 -- +goose Up
 -- +goose StatementBegin
 CREATE TABLE IF NOT EXISTS wallets(
-    wallet_uuid UUID PRIMARY_KEY,
+    wallet_uuid UUID PRIMARY KEY,
     balance INTEGER NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP
