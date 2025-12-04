@@ -26,3 +26,8 @@ compose-down:
 	@sleep 2
 
 db-up: compose-build compose-up migrations-up
+
+db-down: migrations-down compose-down
+
+start:
+	go run ./cmd/main.go
