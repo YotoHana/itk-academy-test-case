@@ -8,8 +8,10 @@ import (
 	"syscall"
 
 	"github.com/YotoHana/itk-academy-test-case/internal/database"
+	"github.com/YotoHana/itk-academy-test-case/internal/handler"
 	"github.com/YotoHana/itk-academy-test-case/internal/repository"
 	"github.com/YotoHana/itk-academy-test-case/internal/server"
+	"github.com/YotoHana/itk-academy-test-case/internal/service"
 )
 
 func main() {
@@ -22,8 +24,10 @@ func main() {
 	}
 
 	repo := repository.NewWalletRepository(db.Database)
+	service := service.NewWalletService(repo)
+	handlers := handler.NewWalletHandler(service)
 
-	server := server.NewServer()
+	server := server.NewServer(handlers)
 
 	go func ()  {
 		<- ctx.Done()
