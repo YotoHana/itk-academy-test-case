@@ -25,9 +25,9 @@ compose-down:
 	docker-compose down -v
 	@sleep 2
 
-db-up: compose-build compose-up migrations-up
+start: compose-build compose-up migrations-up
 
-db-down: migrations-down compose-down
+stop: migrations-down compose-down
 
-start:
+local-start:
 	go run ./cmd/main.go
