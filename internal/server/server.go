@@ -23,6 +23,7 @@ func (s *Server) Stop(ctx context.Context) error {
 func (s *Server) registerRoutes() {
 	api := s.app.Group("/api/v1/")
 	api.Get("wallets/:WALLET_UUID", s.handler.GetBalance)
+	api.Post("wallet", s.handler.OperationWallet)
 }
 
 func NewServer(handler *handler.WalletHandler) *Server {

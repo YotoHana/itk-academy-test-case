@@ -8,7 +8,7 @@ import (
 )
 
 type WalletRepository interface {
-	Update(ctx context.Context, wallets *models.Wallets) error
+	Update(ctx context.Context, wallet *models.Wallets) error
 	GetByID(ctx context.Context, wallet *models.Wallets) error
 }
 
@@ -16,8 +16,8 @@ type walletRepo struct {
 	db *gorm.DB
 }
 
-func (r *walletRepo) Update(ctx context.Context, wallets *models.Wallets) error {
-	return r.db.WithContext(ctx).Model(&models.Wallets{}).Select("wallet_uuid").Updates(&wallets).Error
+func (r *walletRepo) Update(ctx context.Context, wallet *models.Wallets) error {
+	return r.db.WithContext(ctx).Model(&models.Wallets{}).Where("wallet_uuid = ?", wallet.WalletUUID).Updates(&wallet).Error
 }
 
 func (r *walletRepo) GetByID(ctx context.Context, wallet *models.Wallets) error {
