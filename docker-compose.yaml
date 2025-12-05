@@ -18,6 +18,18 @@ services:
     networks:
       - api-network
 
+  api:
+    build:
+      dockerfile: Dockerfile
+    container_name: api-service
+    ports:
+      - 8080:8080
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - api-network
+
 volumes:
   postgres_data:
 networks:
