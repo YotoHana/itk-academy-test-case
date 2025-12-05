@@ -2,11 +2,10 @@ package service
 
 import (
 	"context"
-	"fmt"
-	"log"
 
 	"github.com/YotoHana/itk-academy-test-case/internal/models"
 	"github.com/YotoHana/itk-academy-test-case/internal/repository"
+	internalErrors "github.com/YotoHana/itk-academy-test-case/internal/errors"
 	"github.com/google/uuid"
 )
 
@@ -25,14 +24,17 @@ func (s *walletService) GetWallet(ctx context.Context, uuid uuid.UUID) (*models.
 	}
 
 	if err := s.walletRepo.GetByID(ctx, wallet); err != nil {
-		return nil, err
+		return nil, internalErrors.ErrWalletNotFound
 	}
 
 	return wallet, nil
 }
 
 func (s *walletService) OperateWallet(ctx context.Context, req models.WalletRequest) (*models.Wallets, error) {
-	log.Printf("req: %v", req)
+	if req.Amount <= 0 {
+		return nil, internalErrors.ErrInvalidAmount
+	}
+	
 	switch req.OperationType {
 	case "DEPOSIT":
 		wallet := &models.Wallets{
@@ -40,12 +42,10 @@ func (s *walletService) OperateWallet(ctx context.Context, req models.WalletRequ
 		}
 
 		if err := s.walletRepo.GetByID(ctx, wallet); err != nil {
-			return nil, err
+			return nil, internalErrors.ErrWalletNotFound
 		}
 
 		wallet.Balance += req.Amount
-
-		log.Printf("BALANCE: %d", wallet.Balance)
 
 		if err := s.walletRepo.Update(ctx, wallet); err != nil {
 			return nil, err
@@ -59,7 +59,7 @@ func (s *walletService) OperateWallet(ctx context.Context, req models.WalletRequ
 		}
 
 		if err := s.walletRepo.GetByID(ctx, wallet); err != nil {
-			return nil, err
+			return nil, internalErrors.ErrWalletNotFound
 		}
 
 		if wallet.Balance - req.Amount >= 0 {
@@ -72,10 +72,10 @@ func (s *walletService) OperateWallet(ctx context.Context, req models.WalletRequ
 			return wallet, nil
 		}
 
-		return nil, fmt.Errorf("Not enough balance for withdraw! Balance: %d, amount: %d", wallet.Balance, req.Amount)
+		return nil, internalErrors.ErrUnsufficientBalance
 
 	default:
-		return nil, fmt.Errorf("Invalid operation type: %s", req.OperationType)
+		return nil, internalErrors.ErrInvalidOperationType
 	}
 }
 
