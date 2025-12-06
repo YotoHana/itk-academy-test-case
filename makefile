@@ -2,6 +2,8 @@
 
 MIGRATIONS_DIR="./db/migrations"
 DB_DSN="postgres://dev:dev@localhost:5432/dev"
+RPS_SCRIPT="./post.lua"
+WALLET_UUID="73fd60a4-ef54-484c-9de8-4beb3808da26"
 
 #---------MIGRATION---------
 
@@ -47,6 +49,10 @@ test:
 test-cover:
 	go test ./internal/service -cover
 	go test ./internal/handler -cover
+
+test-rps:
+	wrk -t12 -c400 -d30s -s $(RPS_SCRIPT) http://localhost:8080/api/v1/wallet
+	wrk -t12 -c400 -d30s http://localhost:8080/api/v1/wallets/$(WALLET_UUID)
 
 #---------FORMATTING---------
 
