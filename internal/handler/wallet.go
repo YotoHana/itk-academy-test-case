@@ -23,6 +23,7 @@ func (h *WalletHandler) GetBalance(c *fiber.Ctx) error {
 
 	walletUUID, err := uuid.Parse(walletUUIDStr)
 	if err != nil {
+		err = internalErrors.ErrInvalidPathParameter
 		return checkError(c, start, err)
 	}
 
