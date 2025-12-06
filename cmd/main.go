@@ -40,8 +40,8 @@ func main() {
 
 	server := server.NewServer(handlers, srvCfg)
 
-	go func ()  {
-		<- ctx.Done()
+	go func() {
+		<-ctx.Done()
 		if err := server.Stop(context.Background()); err != nil {
 			log.Printf("failed shutdown server: %v", err)
 		}

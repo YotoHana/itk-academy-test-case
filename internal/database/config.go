@@ -7,12 +7,12 @@ import (
 )
 
 type Config struct {
-	Host string
-	Port string
-	User string
+	Host     string
+	Port     string
+	User     string
 	Password string
-	DBName string
-	SSLMode string
+	DBName   string
+	SSLMode  string
 }
 
 func NewConfig() (*Config, error) {
@@ -21,11 +21,11 @@ func NewConfig() (*Config, error) {
 	}
 
 	return &Config{
-		Host: os.Getenv("DATABASE_HOST"),
-		Port: os.Getenv("DATABASE_PORT"),
-		User: os.Getenv("DATABASE_USER"),
+		Host:     os.Getenv("DATABASE_HOST"),
+		Port:     os.Getenv("DATABASE_PORT"),
+		User:     os.Getenv("DATABASE_USER"),
 		Password: os.Getenv("DATABASE_PASSWORD"),
-		DBName: os.Getenv("DATABASE_DBNAME"),
-		SSLMode: os.Getenv("DATABASE_SSLMODE"),
+		DBName:   os.Getenv("DATABASE_DBNAME"),
+		SSLMode:  os.Getenv("DATABASE_SSLMODE"),
 	}, nil
 }

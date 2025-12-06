@@ -5,9 +5,9 @@ import (
 	"log"
 	"time"
 
+	internalErrors "github.com/YotoHana/itk-academy-test-case/internal/errors"
 	"github.com/YotoHana/itk-academy-test-case/internal/models"
 	"github.com/YotoHana/itk-academy-test-case/internal/service"
-	internalErrors "github.com/YotoHana/itk-academy-test-case/internal/errors"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 )
@@ -60,31 +60,31 @@ func checkError(c *fiber.Ctx, start time.Time, err error) error {
 	case errors.Is(err, internalErrors.ErrWalletNotFound):
 		log.Printf("%s %s %d NotFound | time: %v", c.Method(), c.OriginalURL(), fiber.StatusNotFound, time.Since(start))
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-			"code": 404,
+			"code":    404,
 			"message": "wallet not found",
 		})
 	case errors.Is(err, internalErrors.ErrInvalidAmount):
 		log.Printf("%s %s %d BadRequest | time: %v", c.Method(), c.OriginalURL(), fiber.StatusBadRequest, time.Since(start))
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"code": 400,
+			"code":    400,
 			"message": "invalid amount",
 		})
 	case errors.Is(err, internalErrors.ErrInvalidOperationType):
 		log.Printf("%s %s %d BadRequest | time: %v", c.Method(), c.OriginalURL(), fiber.StatusBadRequest, time.Since(start))
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"code": 400,
+			"code":    400,
 			"message": "invalid operation type",
 		})
 	case errors.Is(err, internalErrors.ErrUnsufficientBalance):
 		log.Printf("%s %s %d BadRequest | time: %v", c.Method(), c.OriginalURL(), fiber.StatusBadRequest, time.Since(start))
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"code": 400,
+			"code":    400,
 			"message": "unsufficient balance",
 		})
 	case errors.Is(err, internalErrors.ErrInvalidPathParameter):
 		log.Printf("%s %s %d BadRequest | time: %v", c.Method(), c.OriginalURL(), fiber.StatusBadRequest, time.Since(start))
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"code": 400,
+			"code":    400,
 			"message": "invalid path parameter",
 		})
 	default:

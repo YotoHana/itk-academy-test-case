@@ -5,8 +5,8 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/YotoHana/itk-academy-test-case/internal/models"
 	internalErrors "github.com/YotoHana/itk-academy-test-case/internal/errors"
+	"github.com/YotoHana/itk-academy-test-case/internal/models"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
@@ -72,9 +72,9 @@ func TestOperateWallet_Success(t *testing.T) {
 
 	ctx := context.Background()
 	req := models.WalletRequest{
-		WalletUUID: uuid.New(),
+		WalletUUID:    uuid.New(),
 		OperationType: "DEPOSIT",
-		Amount: 1000,
+		Amount:        1000,
 	}
 
 	mockRepo.On("GetByID", mock.Anything, mock.AnythingOfType("*models.Wallets")).Return(nil)
@@ -96,9 +96,9 @@ func TestOperateWallet_ZeroAmount(t *testing.T) {
 
 	ctx := context.Background()
 	req := models.WalletRequest{
-		WalletUUID: uuid.New(),
+		WalletUUID:    uuid.New(),
 		OperationType: "DEPOSIT",
-		Amount: 0,
+		Amount:        0,
 	}
 
 	wallet, err := service.OperateWallet(ctx, req)
@@ -118,9 +118,9 @@ func TestOperateWallet_WrongOperationType(t *testing.T) {
 
 	ctx := context.Background()
 	req := models.WalletRequest{
-		WalletUUID: uuid.New(),
+		WalletUUID:    uuid.New(),
 		OperationType: "WRONG",
-		Amount: 1000,
+		Amount:        1000,
 	}
 
 	wallet, err := service.OperateWallet(ctx, req)

@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 
+	internalErrors "github.com/YotoHana/itk-academy-test-case/internal/errors"
 	"github.com/YotoHana/itk-academy-test-case/internal/models"
 	"github.com/YotoHana/itk-academy-test-case/internal/repository"
-	internalErrors "github.com/YotoHana/itk-academy-test-case/internal/errors"
 	"github.com/google/uuid"
 )
 
@@ -34,7 +34,7 @@ func (s *walletService) OperateWallet(ctx context.Context, req models.WalletRequ
 	if req.Amount <= 0 {
 		return nil, internalErrors.ErrInvalidAmount
 	}
-	
+
 	switch req.OperationType {
 	case "DEPOSIT":
 		wallet := &models.Wallets{
@@ -52,7 +52,7 @@ func (s *walletService) OperateWallet(ctx context.Context, req models.WalletRequ
 		}
 
 		return wallet, nil
-	
+
 	case "WITHDRAW":
 		wallet := &models.Wallets{
 			WalletUUID: req.WalletUUID,
@@ -62,7 +62,7 @@ func (s *walletService) OperateWallet(ctx context.Context, req models.WalletRequ
 			return nil, internalErrors.ErrWalletNotFound
 		}
 
-		if wallet.Balance - req.Amount >= 0 {
+		if wallet.Balance-req.Amount >= 0 {
 			wallet.Balance -= req.Amount
 
 			if err := s.walletRepo.Update(ctx, wallet); err != nil {

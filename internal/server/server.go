@@ -9,9 +9,9 @@ import (
 )
 
 type Server struct {
-	app *fiber.App
+	app     *fiber.App
 	handler *handler.WalletHandler
-	cfg *Config
+	cfg     *Config
 }
 
 func (s *Server) Start() error {
@@ -33,9 +33,9 @@ func NewServer(handler *handler.WalletHandler, cfg *Config) *Server {
 	app := fiber.New()
 
 	s := &Server{
-		app: app,
+		app:     app,
 		handler: handler,
-		cfg: cfg,
+		cfg:     cfg,
 	}
 
 	s.registerRoutes()
