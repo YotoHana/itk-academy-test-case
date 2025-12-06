@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/YotoHana/itk-academy-test-case/internal/handler"
 	"github.com/gofiber/fiber/v2"
@@ -10,10 +11,12 @@ import (
 type Server struct {
 	app *fiber.App
 	handler *handler.WalletHandler
+	cfg *Config
 }
 
 func (s *Server) Start() error {
-	return s.app.Listen(":8080")
+	listenAddr := fmt.Sprintf("%s:%s", s.cfg.Host, s.cfg.Port)
+	return s.app.Listen(listenAddr)
 }
 
 func (s *Server) Stop(ctx context.Context) error {
@@ -26,12 +29,13 @@ func (s *Server) registerRoutes() {
 	api.Post("wallet", s.handler.OperationWallet)
 }
 
-func NewServer(handler *handler.WalletHandler) *Server {
+func NewServer(handler *handler.WalletHandler, cfg *Config) *Server {
 	app := fiber.New()
 
 	s := &Server{
 		app: app,
 		handler: handler,
+		cfg: cfg,
 	}
 
 	s.registerRoutes()
